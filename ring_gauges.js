@@ -10,7 +10,6 @@
 <!-- Resources -->
 <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
 <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
-<script src="https://cdn.amcharts.com/lib/4/themes/frozen.js"></script>
 <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
 
 <!-- Chart code -->
@@ -18,7 +17,6 @@
 am4core.ready(function() {
 
 // Themes begin
-am4core.useTheme(am4themes_frozen);
 am4core.useTheme(am4themes_animated);
 // Themes end
 
@@ -94,3 +92,12 @@ series2.columns.template.radarColumn.cornerRadius = 20;
 series2.columns.template.adapter.add("fill", function(fill, target) {
   return chart.colors.getIndex(target.dataItem.index);
 });
+
+// Add cursor
+chart.cursor = new am4charts.RadarCursor();
+
+}); // end am4core.ready()
+</script>
+
+<!-- HTML -->
+<div id="chartdiv"></div>
