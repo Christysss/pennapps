@@ -11,8 +11,7 @@ from summarizer import Summarizer
 app = Flask(__name__)
 CORS(app)
 app.config['MONGO_DBNAME'] = 'Pennapps'
-app.config[
-    'MONGO_URI'] = "mongodb+srv://Pennapps:pennapps123@penapps.itvhn.gcp.mongodb.net/Pennapps?retryWrites=true&w=majority"
+app.config['MONGO_URI'] = "mongodb+srv://Pennapps:pennapps123@penapps.itvhn.gcp.mongodb.net/Pennapps?retryWrites=true&w=majority"
 mongo = PyMongo(app)
 
 
