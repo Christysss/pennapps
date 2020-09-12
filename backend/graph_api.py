@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_cors import CORS
-import API.flaskAPIs as api
+# import API.flaskAPIs as api
 
 app = Flask(__name__)
 CORS(app)

@@ -2,19 +2,16 @@ from flask import Flask, render_template, request, redirect, url_for, jsonify
 from flask_cors import CORS
 # import API.flaskAPIs as api
 from flask_pymongo import PyMongo
-
-
+import os
 
 app = Flask(__name__)
 CORS(app)
 app.config['MONGO_DBNAME'] = 'Pennapps'
-app.config['MONGO_URI'] = 'mongodb+srv://Pennapps:pennapps123@penapps.itvhn.gcp.mongodb.net/Pennapps?retryWrites=true&w=majority'
-
+app.config['MONGO_URI'] = os.environ.get('MONGO_URI')
 
 mongo = PyMongo(app)
 
 # endpoint for rendering the calender template initially
-
 @app.route('/getcalender', methods=['GET'])
 def get_calender():
     return ""
@@ -43,16 +40,14 @@ def delete_event():
 
 @app.route('/createevent', methods=['POST'])
 def create_event():
-    star = mongo.db.stars
-    # name = request.json['name']
-    # distance = request.json['distance']
-    star_id = star.insert({'name': "name", 'distance': "distance"})
-    new_star = star.find_one({'_id': star_id})
-    output = {'name': new_star['name'], 'distance': new_star['distance']}
-    # return jsonify({'result': output})
-
-
-    return jsonify({'result': output})
+    # star = mongo.db.stars
+    # # name = request.json['name']
+    # # distance = request.json['distance']
+    # star_id = star.insert({'name': "name", 'distance': "distance"})
+    # new_star = star.find_one({'_id': star_id})
+    # output = {'name': new_star['name'], 'distance': new_star['distance']}
+    # # return jsonify({'result': output})
+    return ""
 
 # Update an event (Confusion: before than we need to make fetch request)
 # event id will be passed
@@ -62,3 +57,24 @@ def create_event():
 @app.route('/updateevent', methods=['POST'])
 def update_event():
     return ""
+
+
+
+
+
+if __name__ == '__main__':
+    app.run()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
