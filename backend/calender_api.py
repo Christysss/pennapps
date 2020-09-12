@@ -2,12 +2,23 @@ from flask import Flask, render_template, request, redirect, url_for, jsonify
 from flask_cors import CORS
 # import API.flaskAPIs as api
 from flask_pymongo import PyMongo
+import json
+from bson import ObjectId
 
 app = Flask(__name__)
 CORS(app)
 app.config['MONGO_DBNAME'] = 'Pennapps'
-app.config['MONGO_URI'] = "mongodb+srv://Pennapps:pennapps123@penapps.itvhn.gcp.mongodb.net/Pennapps?retryWrites=true&w=majority"
+app.config[
+    'MONGO_URI'] = "mongodb+srv://Pennapps:pennapps123@penapps.itvhn.gcp.mongodb.net/Pennapps?retryWrites=true&w=majority"
 mongo = PyMongo(app)
+
+
+class JSONEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, ObjectId):
+            return str(o)
+        return json.JSONEncoder.default(self, o)
+
 
 
 # endpoint for rendering the calender template initially
@@ -15,8 +26,12 @@ mongo = PyMongo(app)
 def get_calender():
     event = mongo.db.calendar
     events = event.find()
+    eventList = []
 
-    return jsonify(events)
+    for x in events:
+        eventList.append(x)
+
+    return JSONEncoder().encode({"events": eventList})
 
 
 # endpoint for fetching data for particular event by id of the event
@@ -25,10 +40,11 @@ def get_calender():
 
 @app.route('/fetchevent', methods=['GET'])
 def fetch_event():
-    req_id = request.json['id']
+    req_id = ObjectId(request.json['id'])
+    print(req_id)
     event = mongo.db.calendar
     event_select = event.find_one({'_id': req_id})
-    return jsonify(event_select)
+    return JSONEncoder().encode(event_select)
 
 
 # endpoint for deleting an event
@@ -38,7 +54,7 @@ def fetch_event():
 
 @app.route('/deleteevent', methods=['DELETE'])
 def delete_event():
-    req_id = request.json['id']
+    req_id = ObjectId(request.json['id'])
     event = mongo.db.calendar
     event_select = event.delete_one({'_id': req_id})
     return {"status": "success"}
@@ -69,11 +85,11 @@ def create_event():
 @app.route('/updateevent', methods=['POST'])
 def update_event():
     event = mongo.db.calendar
-    req_id = request.json['id']
+    req_id = ObjectId(request.json['id'])
+    req_data = request.json["data"]
+    event.find_one_and_update({"_id": req_id}, req_data)
 
-    # event.find_one_and_update({"_id" : req_id}, )
-
-    return ""
+    return {"status": "success"}
 
 
 # Graphapi
@@ -81,18 +97,27 @@ def update_event():
 def get_data():
     graph = mongo.db.graph
     graph_data = graph.find()
-    return jsonify(graph_data)
+
+    graphData = []
+
+    for x in graph_data:
+        graphData.append(x)
+
+    return JSONEncoder().encode({"graphData": graphData})
 
 
 # Todoapi
 
 @app.route('/gettodos', methods=['GET'])
 def get_todos():
-
     todo = mongo.db.todo
     todo_data = todo.find()
-    return jsonify(todo_data)
+    todoData = []
 
+    for x in todo_data:
+        todoData.append(x)
+
+    return JSONEncoder().encode({"events": todoData})
 
 # endpoint for adding to-do item.
 # POST Request
@@ -104,9 +129,9 @@ def add_todo():
 
     req_data = request.json["task"]
 
-    todo_id = todo.insert({"task" : req_data, "completed": False})
+    todo_id = todo.insert({"task": req_data, "completed": False})
 
-    return jsonify({"status":"success"})
+    return jsonify({"status": "success"})
 
 
 # endpoint for removing an item from to-do list
@@ -123,10 +148,10 @@ def remove_todo():
     task_name = request.json["task"]
     remove = request.json["remove"]
 
-    if(remove == True):
-        todo.delete_one({"task":task_name})
+    if (remove == True):
+        todo.delete_one({"task": task_name})
     else:
-        todo.find_one_and_update({"task":task_name}, {"completion": completion})
+        todo.find_one_and_update({"task": task_name}, {"completion": completion})
 
     return jsonify({"status": "success"})
 
@@ -138,19 +163,14 @@ def remove_todo():
 @app.route('/edittodo', methods=['GET'])
 def edit_todo():
     todo = mongo.db.todo
-    task_id = request.json["id"]
+    task_id = ObjectId(request.json["id"])
     task_name = request.json["task_name"]
     todo.find_one_and_update({"_id": task_id}, {"task": task_name})
 
     return jsonify({"status": "success"})
 
 
-
 # Transcripts
-
-
-
-
 
 
 # endpoint for rendering the transcript element initially
@@ -163,6 +183,7 @@ def edit_todo():
 def get_subjects():
     return ""
 
+
 # endpoint for fetching all the transcripts and required data for specific subject
 # GET Request
 # subject ID will be passed to the method
@@ -173,21 +194,6 @@ def get_subjects():
 @app.route('/gettranscripts', methods=['GET'])
 def get_transcripts():
     return ""
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 if __name__ == '__main__':
