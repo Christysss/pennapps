@@ -5,6 +5,9 @@ from flask_pymongo import PyMongo
 import json
 from bson import ObjectId
 
+from summarizer import Summarizer
+
+
 app = Flask(__name__)
 CORS(app)
 app.config['MONGO_DBNAME'] = 'Pennapps'
@@ -193,8 +196,17 @@ def get_subjects():
 
 @app.route('/gettranscripts', methods=['GET'])
 def get_transcripts():
-    return ""
 
+
+    # body = speechToTextOutput
+    #
+    # model = Summarizer()
+    # result = model(body, min_length=60)
+    # full = ''.join(result)
+    #
+    #
+    # return full
+    return ""
 
 if __name__ == '__main__':
     app.run()
