@@ -1,9 +1,17 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 from flask_cors import CORS
-import API.flaskAPIs as api
+# import API.flaskAPIs as api
+from flask_pymongo import PyMongo
+
+
 
 app = Flask(__name__)
 CORS(app)
+app.config['MONGO_DBNAME'] = 'Pennapps'
+app.config['MONGO_URI'] = 'mongodb+srv://Pennapps:pennapps123@penapps.itvhn.gcp.mongodb.net/Pennapps?retryWrites=true&w=majority'
+
+
+mongo = PyMongo(app)
 
 # endpoint for rendering the calender template initially
 
@@ -35,7 +43,16 @@ def delete_event():
 
 @app.route('/createevent', methods=['POST'])
 def create_event():
-    return ""
+    star = mongo.db.stars
+    # name = request.json['name']
+    # distance = request.json['distance']
+    star_id = star.insert({'name': "name", 'distance': "distance"})
+    new_star = star.find_one({'_id': star_id})
+    output = {'name': new_star['name'], 'distance': new_star['distance']}
+    # return jsonify({'result': output})
+
+
+    return jsonify({'result': output})
 
 # Update an event (Confusion: before than we need to make fetch request)
 # event id will be passed
