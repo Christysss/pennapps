@@ -1,0 +1,137 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  }
+
+#generator {
+    background: url('https://www.danielcole.co.uk/media/img/quotegen_background.jpg') center center fixed no-repeat;
+  background-size: cover;
+  background-color:#black;
+  min-height: 100%;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  font-size: large;
+}
+
+#quoteMobile{
+  margin-top:0px;
+  text-shadow: 0px 0px 20px white;
+}
+
+#quoteDesktop{
+  margin-top:0px;
+  text-shadow: 0px 0px 20px white;
+}
+
+#quoteAuthorMobile{
+  font-weight:bold;
+  font-style:italic;
+  text-shadow: 0px 0px 10px white;
+}
+
+#quoteAuthorDesktop{
+  font-style:italic;
+  text-shadow: 0px 0px 10px white;
+}
+
+.buttons {
+  outline:none;
+  border-width: 2px;
+  border-color: white;
+  padding-left: 10px;
+  padding-right: 10px;
+  color: white;
+  background-color:transparent;
+  transition: all;
+}
+
+.touch .buttons:hover {
+  outline:none;
+  border-width: 2px;
+  border-color: white;
+  padding-left: 10px;
+  padding-right: 10px;
+  color: white;
+  background-color:transparent;
+}
+
+.buttons:hover {
+  outline:none;
+  border-color: white;
+  color:white;
+  background-color:#476b6b;
+}
+
+.no-touch .buttons:target {
+  outline:none;
+  border-color: white;
+  color:white;
+  background-color:#476b6b;
+}
+
+.no-touch .buttons:active {
+  outline:none;
+  border-color: white;
+  color:white;
+  background-color:#476b6b;
+}
+
+.no-touch .buttons:focus {
+  outline:none;
+  border-color: white;
+  color:white;
+  background-color:#476b6b;
+}
+
+.no-touch .buttons:active:focus {
+  outline:none;
+  border-color: white;
+  color:white;
+  background-color:#334d4d;
+}
+
+#inspireContainer {
+  position: absolute;
+  bottom: 100px;
+  height: 25px;
+}
+
+#tweetContainer {
+  position: absolute;
+  bottom: 0;
+  height: 60px;
+}
+
+h1{
+  color:black;
+}
+
+h2{
+  color:black;
+}
+
+h3{
+  color:black;
+}
+
+h4{
+  color:black;
+}
+
+h5{
+  color:black;
+}
+
+h6{
+  color:black;
+}
+
+.fa-lightbulb-o{
+  margin-left:5px;
+  margin-right:5px;
+}
+
+.fa-twitter{
+  margin-left:5px;
+}
